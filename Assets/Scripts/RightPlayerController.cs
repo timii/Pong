@@ -14,7 +14,7 @@ public class RightPlayerController : MonoBehaviour
         // Starting position = (8.0, 0.0, 0.0)
         Vector3 startingPosition = new Vector3 (8.0f, 0.0f, 0.0f);
 
-        // Set the player position to the starting position
+        // Set the right player position to the starting position
         transform.position = startingPosition;
     }
 
@@ -32,7 +32,6 @@ public class RightPlayerController : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collider) {
-        Debug.Log("Hit: " + collider.name);
         if (collider.name == "TopWall") {
             canMoveUp = false;
         }
@@ -42,7 +41,6 @@ public class RightPlayerController : MonoBehaviour
     }
 
     private void OnTriggerExit2D(Collider2D collider) {
-        Debug.Log("Hit Exit: " + collider.name);
         if (collider.name == "TopWall") {
             canMoveUp = true;
         }
