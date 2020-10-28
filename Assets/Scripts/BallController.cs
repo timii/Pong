@@ -6,8 +6,8 @@ public class BallController : MonoBehaviour
 {
     private float speedX;
     private float speedY;
-    private int pointsRight;
-    private int pointsLeft;
+    public static int pointsRight;
+    public static int pointsLeft;
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +17,7 @@ public class BallController : MonoBehaviour
 
         // Give the ball a random velocity and direction
         speedX = Random.Range(-0.03f, 0.03f);
-        speedY = Random.Range(-0.03f, 0.03f);
+        speedY = Random.Range(-0.04f, 0.04f);
 
         // Set the ball into the middle
         transform.position = startingPosition;
