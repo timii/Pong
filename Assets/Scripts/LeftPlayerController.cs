@@ -31,6 +31,7 @@ public class LeftPlayerController : MonoBehaviour
         }
     }
 
+    // Function to handle collisions
     private void OnTriggerEnter2D(Collider2D collider) {
         if (collider.name == "TopWall") {
             canMoveUp = false;
