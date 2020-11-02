@@ -6,8 +6,8 @@ public class BallController : MonoBehaviour
 {
     private float speedX;
     private float speedY;
-    private const float minSpeedX = -0.05f;
-    private const float maxSpeedX = 0.05f;
+    private const float minSpeedX = -0.04f;
+    private const float maxSpeedX = 0.04f;
     private const float minSpeedY = -0.04f;
     private const float maxSpeedY = 0.04f;
     public static int pointsRight;
@@ -31,8 +31,12 @@ public class BallController : MonoBehaviour
         // Wait for 1 second, then move the ball
         if (timer >= waitTime) {
 
-            // Move the ball in a random direction
-            transform.Translate(speedX, speedY, 0);
+            // Dont move ball when game is paused
+            if (!(PauseMenuController.gameIsPaused))
+            {
+                // Move the ball in a random direction
+                transform.Translate(speedX, speedY, 0);
+            }
         }
     }
 
@@ -100,11 +104,15 @@ public class BallController : MonoBehaviour
     private void BounceOffPlayer() {
         speedX *= -1;
 
-        GameObject topWall = GameObject.Find("TopWall");
-        float dist = Vector2.Distance(transform.position, topWall.transform.position);
-        Debug.Log("distance: " + dist);
-
         // Sprite size = 50x200 Pixels (Paddleheight = 200)
         //float relativeIntersectY = ();
+    }
+
+    // Function to reset the game
+    public void ResetGame ()
+    {
+        pointsLeft = 0;
+        pointsRight = 0;
+        Start();
     }
 }
