@@ -31,16 +31,15 @@ public class PauseMenuController : MonoBehaviour
     // Function to resume the game
     public void ResumeGame()
     {
-        Debug.Log("Resume Clicked");
         pauseMenuUI.SetActive(false);
         // Freeze time (timeScale = speed at which speed is passing)
         Time.timeScale = 1f;
         gameIsPaused = false;
     }
 
+    // Function to reset the game
     public void ResetButtonClicked()
     {
-        Debug.Log("Reset Clicked");
         BallController bc = GameObject.Find("Ball").GetComponent<BallController>();
         bc.ResetGame();
     }
@@ -49,16 +48,17 @@ public class PauseMenuController : MonoBehaviour
     // Function to pause the game
     private void PauseGame()
     {
-        Debug.Log("Pause Clicked");
         pauseMenuUI.SetActive(true);
         // Freeze time (timeScale = speed at which speed is passing)
         Time.timeScale = 0f;
         gameIsPaused = true;
     }
 
-    // Function for ExitButton functionality
+    // Function to exit back to the start menu
     public void ExitButtonClick()
     {
-        Debug.Log("Exit Clicked");
+        Time.timeScale = 1f;
+        gameIsPaused = false;
+        SceneManager.LoadSceneAsync("StartMenuScene");
     }
 }
