@@ -1,17 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    private float speedX;
-    private float speedY;
-    private const float minSpeedX = -0.04f;
+    private float currentSpeedX;
+    private float currentSpeedY;
     private const float maxSpeedX = 0.04f;
-    private const float minSpeedY = -0.04f;
+    private const float minSpeedX = -maxSpeedX;
     private const float maxSpeedY = 0.04f;
-    public static int pointsRight;
-    public static int pointsLeft;
+    private const float minSpeedY = -maxSpeedY;
     private const float waitTime = 1.0f;
     private float timer = 0.0f;
 
@@ -19,8 +15,6 @@ public class BallController : MonoBehaviour
     void Start()
     {
         CreateRandomMovement();
-
-        ResetBall();
     }
 
     // Update is called once per frame
@@ -35,54 +29,60 @@ public class BallController : MonoBehaviour
             if (!(PauseMenuController.gameIsPaused))
             {
                 // Move the ball in a random direction
-                transform.Translate(speedX, speedY, 0);
+                transform.Translate(currentSpeedX, currentSpeedY, 0);
             }
         }
     }
 
     // Function to handle collisions
-    private void OnTriggerEnter2D(Collider2D collider) {
-        // If the ball hits the top or bottom wall negate the y speed
-        if (collider.name == "TopWall" || collider.name == "BottomWall") {
-            speedY *= -1;
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        string name = collision.gameObject.name;
+
+        if (name == "TopWall" || name == "BottomWall")
+        {
+            currentSpeedY *= -1;
         }
 
-        // If the ball hits the right or left wall or either of the players negate the x speed
-        else if (collider.name == "RightPlayer" || collider.name == "LeftPlayer") {
-            //speedX *= -1;
-            BounceOffPlayer();
+        else if (name == "Player")
+        {
+            BounceOffPlayer(collision);
         }
 
         // If the ball scores a point on the right side, add a point to the right player
         // and reset the ball position
-        else if (collider.name == "RightPointCounter") {
-            pointsLeft++;
-            ResetTimer();
-            Start();
+        else if (name == "RightPointCounter")
+        {
+            PointsHandler.pointsLeft++;
+            CreateRandomMovement();
+            ResetBall();
         }
 
         // If the ball scores a point on the left side, add a point to the left player
         // and reset the ball position
-        else if (collider.name == "LeftPointCounter") {
-            pointsRight++;
-            ResetTimer();
-            Start();
+        else if (name == "LeftPointCounter")
+        {
+            PointsHandler.pointsRight++;
+            CreateRandomMovement();
+            ResetBall();
         }
     }
 
     // Function to create random x and y speeds for the ball movement
     private void CreateRandomMovement() {
-        float addSpeed = 0.01f; 
+        float speedMargin = 0.01f; 
 
-        speedX = Random.Range(minSpeedX, maxSpeedX);
-        // Workaround to exclude values from -0.01 to 0.01
-        if (speedX > -addSpeed && speedX < 0) speedX -= addSpeed;
-        else if (speedX > 0 && speedX < addSpeed) speedX += addSpeed;
+        currentSpeedX = Random.Range(minSpeedX, maxSpeedX);
 
-        speedY = Random.Range(minSpeedY, maxSpeedY);
         // Workaround to exclude values from -0.01 to 0.01
-        if (speedY > -addSpeed && speedY < 0) speedY -= addSpeed;
-        else if (speedY > 0 && speedY < addSpeed) speedY += addSpeed;
+        if (currentSpeedX > -speedMargin && currentSpeedX < 0) currentSpeedX -= speedMargin;
+        else if (currentSpeedX > 0 && currentSpeedX < speedMargin) currentSpeedX += speedMargin;
+
+        currentSpeedY = Random.Range(minSpeedY, maxSpeedY);
+
+        // Workaround to exclude values from -0.01 to 0.01
+        if (currentSpeedY > -speedMargin && currentSpeedY < 0) currentSpeedY -= speedMargin;
+        else if (currentSpeedY > 0 && currentSpeedY < speedMargin) currentSpeedY += speedMargin;
     }
 
     // Function to reset the ball position to the center
@@ -92,27 +92,25 @@ public class BallController : MonoBehaviour
 
         // Set the ball into the middle
         transform.position = startingPosition;
-    }
 
-    // Function to reset the timer variable after every point scored 
-    private void ResetTimer() {
         // Remove the recorded 2 seconds
         timer = 0.0f;
     }
 
     // Function to calculate the bounce off angle when hitting a player
-    private void BounceOffPlayer() {
-        speedX *= -1;
+    private void BounceOffPlayer(Collision2D coll) {
+            Vector3 hit = coll.contacts[0].normal;
+            float angle = Vector3.Angle(hit, Vector3.up);
 
-        // Sprite size = 50x200 Pixels (Paddleheight = 200)
-        //float relativeIntersectY = ();
-    }
-
-    // Function to reset the game
-    public void ResetGame ()
-    {
-        pointsLeft = 0;
-        pointsRight = 0;
-        Start();
+            if (Mathf.Approximately(angle, 0) || Mathf.Approximately(angle, 180))
+            {
+                // Hit top or bottom of players
+                currentSpeedY *= -1;
+            }
+            else if (Mathf.Approximately(angle, 90))
+            {   
+                // Hit right or left side of players
+                currentSpeedX *= -1;
+            }
     }
 }

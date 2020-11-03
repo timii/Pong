@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
@@ -40,8 +39,10 @@ public class PauseMenuController : MonoBehaviour
     // Function to reset the game
     public void ResetButtonClicked()
     {
-        BallController bc = GameObject.Find("Ball").GetComponent<BallController>();
-        bc.ResetGame();
+        Time.timeScale = 1f;
+        gameIsPaused = false;
+        // Reload current scene to reset everything
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }
 
 
@@ -57,11 +58,9 @@ public class PauseMenuController : MonoBehaviour
     // Function to exit back to the start menu
     public void ExitButtonClick()
     {
-        // Reset everything so it starts a new game with normal timeScale and 0 points for each side
-        Time.timeScale = 1f;
+        // Reset everything so it starts a new game with normal timeScale
         gameIsPaused = false;
-        BallController bc = GameObject.Find("Ball").GetComponent<BallController>();
-        bc.ResetGame();
+        Time.timeScale = 1f;
         SceneManager.LoadSceneAsync("StartMenuScene");
     }
 }
