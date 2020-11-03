@@ -57,8 +57,11 @@ public class PauseMenuController : MonoBehaviour
     // Function to exit back to the start menu
     public void ExitButtonClick()
     {
+        // Reset everything so it starts a new game with normal timeScale and 0 points for each side
         Time.timeScale = 1f;
         gameIsPaused = false;
+        BallController bc = GameObject.Find("Ball").GetComponent<BallController>();
+        bc.ResetGame();
         SceneManager.LoadSceneAsync("StartMenuScene");
     }
 }
