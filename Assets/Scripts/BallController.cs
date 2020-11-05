@@ -97,20 +97,27 @@ public class BallController : MonoBehaviour
         timer = 0.0f;
     }
 
-    // Function to calculate the bounce off angle when hitting a player
+    // Function to bounce off a player according to which side it hit
     private void BounceOffPlayer(Collision2D coll) {
-            Vector3 hit = coll.contacts[0].normal;
-            float angle = Vector3.Angle(hit, Vector3.up);
+        Vector3 hit = coll.contacts[0].normal;
+        
+        // Get the angle at which the ball hit the player
+        float angle = Vector3.Angle(hit, Vector3.up);
 
-            if (Mathf.Approximately(angle, 0) || Mathf.Approximately(angle, 180))
-            {
-                // Hit top or bottom of players
-                currentSpeedY *= -1;
-            }
-            else if (Mathf.Approximately(angle, 90))
-            {   
-                // Hit right or left side of players
-                currentSpeedX *= -1;
-            }
+        // Hit top or bottom of players
+        if (Mathf.Approximately(angle, 0) || Mathf.Approximately(angle, 180))
+        {
+            currentSpeedY *= -1;
+        }
+
+        // Hit right or left side of players   
+        else if (Mathf.Approximately(angle, 90))
+        {             
+            currentSpeedX *= -1;
+
+            // Add some randomness to the bounce off
+            currentSpeedY += Random.Range(-0.01f, 0.01f);
+            currentSpeedX += Random.Range(-0.01f, 0.01f);
+        }
     }
 }
