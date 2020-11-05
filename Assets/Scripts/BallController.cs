@@ -4,9 +4,9 @@ public class BallController : MonoBehaviour
 {
     private float currentSpeedX;
     private float currentSpeedY;
-    private const float maxSpeedX = 0.04f;
+    private const float maxSpeedX = 0.035f;
     private const float minSpeedX = -maxSpeedX;
-    private const float maxSpeedY = 0.04f;
+    private const float maxSpeedY = 0.035f;
     private const float minSpeedY = -maxSpeedY;
     private const float waitTime = 1.0f;
     private float timer = 0.0f;
@@ -47,6 +47,9 @@ public class BallController : MonoBehaviour
         else if (name == "Player")
         {
             BounceOffPlayer(collision);
+
+            // Play bounce off sound
+            FindObjectOfType<AudioManager>().Play("BallBounce");
         }
 
         // If the ball scores a point on the right side, add a point to the right player
@@ -115,9 +118,10 @@ public class BallController : MonoBehaviour
         {             
             currentSpeedX *= -1;
 
+            float addSpeed = 0.005f;
             // Add some randomness to the bounce off
-            currentSpeedY += Random.Range(-0.01f, 0.01f);
-            currentSpeedX += Random.Range(-0.01f, 0.01f);
+            currentSpeedX += Random.Range(-addSpeed, addSpeed);
+            currentSpeedY += Random.Range(-addSpeed, addSpeed);
         }
     }
 }

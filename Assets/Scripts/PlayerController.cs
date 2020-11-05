@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     private GameObject leftPlayer;
 
     // Movement speed of each player
-    private const float movementSpeed = 0.02f;
+    private const float movementSpeed = 0.03f;
 
     private bool rightCanMoveUp = true;
     private bool rightCanMoveDown = true;

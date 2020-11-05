@@ -61,6 +61,13 @@ public class PauseMenuController : MonoBehaviour
         // Reset everything so it starts a new game with normal timeScale
         gameIsPaused = false;
         Time.timeScale = 1f;
+
+        // Stop the play audio
+        FindObjectOfType<AudioManager>().Stop("PlayTheme");
+
         SceneManager.LoadSceneAsync("StartMenuScene");
+
+        // Start the start menu audio
+        FindObjectOfType<AudioManager>().Play("StartMenuTheme");
     }
 }
