@@ -34,7 +34,7 @@ public class BallController : MonoBehaviour
         }
     }
 
-    // Function to handle collisions
+    // Sent when an incoming collider makes contact with this object's collider (2D physics only)
     private void OnCollisionEnter2D(Collision2D collision)
     {
         string name = collision.gameObject.name;
@@ -100,7 +100,10 @@ public class BallController : MonoBehaviour
         timer = 0.0f;
     }
 
-    // Function to bounce off a player according to which side it hit
+    /// <summary>
+    /// Function to bounce off a player according to which side it hit
+    /// </summary>
+    /// <param name="coll">the collision2d data associated with the collision</param>
     private void BounceOffPlayer(Collision2D coll) {
         Vector3 hit = coll.contacts[0].normal;
         

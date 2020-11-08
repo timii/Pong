@@ -1,16 +1,22 @@
 ﻿using UnityEngine.Audio;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
+    // the game volume when starting the game
+    public static float masterVolume = 0.5f;
+
     // Create an array of sound class instances to store every audio clip
     public Sound[] sounds;
 
     // Static reference to the current AudioManager instance
     public static AudioManager instance;
 
-    // Start is called before the first frame update
+    int i = 0;
+
+    // Awake is called when the script instance is being loaded
     void Awake()
     {
         if (instance == null) instance = this;
@@ -19,7 +25,14 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
+
+        // If there is a masterVolume saved in PlayerPrefs
+        if (PlayerPrefs.HasKey("masterVolume")) {
+            masterVolume = PlayerPrefs.GetFloat("masterVolume");
+        }
+
+        // Set game volume to the master volume
+        AudioListener.volume = masterVolume;
 
         // Dont Destroy when changing scenes
         DontDestroyOnLoad(gameObject);
@@ -36,38 +49,64 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // Start is called before the first frame update
     private void Start()
     {
         Play("StartMenuTheme");
     }
 
-    // Function to play sound
-    //
-    // params:
-    // name = name of the sound
-    public void Play(string name)
+    /// <summary>
+    /// Function to play a sound
+    /// </summary>
+    /// <param name="soundName">the name of the sound</param>
+    public void Play(string soundName)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = Array.Find(sounds, sound => sound.name == soundName);
         
         // If the sound isn't in our sounds array
         if (s == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
+            Debug.LogWarning("Sound: " + soundName + " not found!");
             return;
         }
         s.source.Play();
     }
 
-    public void Stop(string name)
+    /// <summary>
+    /// Function to stop a sound
+    /// </summary>
+    /// <param name="soundName">the name of the sound</param>
+    public void Stop(string soundName)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = Array.Find(sounds, sound => sound.name == soundName);
 
         // If the sound isn't in our sounds array
         if (s == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
+            Debug.LogWarning("Sound: " + soundName + " not found!");
             return;
         }
         s.source.Stop();
+    }
+
+    /// <summary>
+    /// Function for changing the game volume with the volume slider
+    /// </summary>
+    public void OnValueChanged()
+    {
+        masterVolume = GameObject.Find("VolumeSlider").GetComponent<Slider>().value;
+        AudioListener.volume = masterVolume;
+        Debug.Log("Volume after changing: " + AudioListener.volume);
+    }
+
+    /// <summary>
+    /// Function to set the volume slider value to the value saved in the PlayerPrefs
+    /// </summary>
+    public void SetSliderValue()
+    {
+        while (i < 1) {
+                GameObject.Find("VolumeSlider").GetComponent<Slider>().value = masterVolume;
+                i++;
+            }
     }
 }

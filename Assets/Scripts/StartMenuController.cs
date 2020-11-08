@@ -28,4 +28,12 @@ public class StartMenuController : MonoBehaviour
         Application.Quit();
     }
 
+    /// <summary>
+    /// Function to save the volume into PlayerPrefs
+    /// </summary>
+    public void SaveVolume()
+    {
+        PlayerPrefs.SetFloat("masterVolume", AudioManager.masterVolume);
+    }
+
 }

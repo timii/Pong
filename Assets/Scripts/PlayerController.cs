@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     private GameObject leftPlayer;
 
     // Movement speed of each player
-    private const float movementSpeed = 0.03f;
+    private const float movementSpeed = 0.025f;
 
     private bool rightCanMoveUp = true;
     private bool rightCanMoveDown = true;
@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Function to make the player stop moving in the direction the wall is when touching a wall
+    // Sent when an incoming collider makes contact with this object's collider (2D physics only)
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Name of the player that collides
@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Function to make the players able to move up and down when not touching a wall
+    // Sent when a collider on another object stops touching this object's collider (2D physics only)
     private void OnCollisionExit2D(Collision2D collision)
     {
         // Name of the player that collides

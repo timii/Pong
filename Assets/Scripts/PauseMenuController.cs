@@ -36,16 +36,6 @@ public class PauseMenuController : MonoBehaviour
         gameIsPaused = false;
     }
 
-    // Function to reset the game
-    public void ResetButtonClicked()
-    {
-        Time.timeScale = 1f;
-        gameIsPaused = false;
-        // Reload current scene to reset everything
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
-    }
-
-
     // Function to pause the game
     private void PauseGame()
     {
@@ -53,6 +43,15 @@ public class PauseMenuController : MonoBehaviour
         // Freeze time (timeScale = speed at which speed is passing)
         Time.timeScale = 0f;
         gameIsPaused = true;
+    }
+
+    // Function to reset the game
+    public void ResetButtonClicked()
+    {
+        Time.timeScale = 1f;
+        gameIsPaused = false;
+        // Reload current scene to reset everything
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }
 
     // Function to exit back to the start menu
