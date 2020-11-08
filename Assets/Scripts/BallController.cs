@@ -73,7 +73,7 @@ public class BallController : MonoBehaviour
 
     // Function to create random x and y speeds for the ball movement
     private void CreateRandomMovement() {
-        float speedMargin = 0.01f; 
+        float speedMargin = 0.02f; 
 
         currentSpeedX = Random.Range(minSpeedX, maxSpeedX);
 

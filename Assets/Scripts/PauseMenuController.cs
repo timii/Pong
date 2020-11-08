@@ -34,6 +34,8 @@ public class PauseMenuController : MonoBehaviour
         // Freeze time (timeScale = speed at which speed is passing)
         Time.timeScale = 1f;
         gameIsPaused = false;
+        // Reset game volume
+        FindObjectOfType<AudioManager>().ResetVolume();
     }
 
     // Function to pause the game
@@ -43,6 +45,8 @@ public class PauseMenuController : MonoBehaviour
         // Freeze time (timeScale = speed at which speed is passing)
         Time.timeScale = 0f;
         gameIsPaused = true;
+        // Lower volume to 25% while in pause menu
+        AudioListener.volume *= 0.25f;
     }
 
     // Function to reset the game
@@ -50,6 +54,8 @@ public class PauseMenuController : MonoBehaviour
     {
         Time.timeScale = 1f;
         gameIsPaused = false;
+        // Reset game volume
+        FindObjectOfType<AudioManager>().ResetVolume();
         // Reload current scene to reset everything
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }
@@ -60,6 +66,8 @@ public class PauseMenuController : MonoBehaviour
         // Reset everything so it starts a new game with normal timeScale
         gameIsPaused = false;
         Time.timeScale = 1f;
+        // Reset game volume
+        FindObjectOfType<AudioManager>().ResetVolume();
 
         // Stop the play audio
         FindObjectOfType<AudioManager>().Stop("PlayTheme");

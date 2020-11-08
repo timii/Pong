@@ -1,5 +1,4 @@
-﻿using UnityEngine.Audio;
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,8 +12,6 @@ public class AudioManager : MonoBehaviour
 
     // Static reference to the current AudioManager instance
     public static AudioManager instance;
-
-    int i = 0;
 
     // Awake is called when the script instance is being loaded
     void Awake()
@@ -88,25 +85,18 @@ public class AudioManager : MonoBehaviour
         }
         s.source.Stop();
     }
-
-    /// <summary>
-    /// Function for changing the game volume with the volume slider
-    /// </summary>
+    
+    // Function for changing the game volume with the volume slider
     public void OnValueChanged()
     {
+        // Set the master volume to the value of the slider
         masterVolume = GameObject.Find("VolumeSlider").GetComponent<Slider>().value;
         AudioListener.volume = masterVolume;
-        Debug.Log("Volume after changing: " + AudioListener.volume);
     }
 
-    /// <summary>
-    /// Function to set the volume slider value to the value saved in the PlayerPrefs
-    /// </summary>
-    public void SetSliderValue()
+    // Resets the volume
+    public void ResetVolume()
     {
-        while (i < 1) {
-                GameObject.Find("VolumeSlider").GetComponent<Slider>().value = masterVolume;
-                i++;
-            }
+        AudioListener.volume = masterVolume;
     }
 }

@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StartMenuController : MonoBehaviour
 {
@@ -28,6 +27,13 @@ public class StartMenuController : MonoBehaviour
         Application.Quit();
     }
 
+    // Function for when the options button is clicked
+    public void OptionsButtonClick()
+    {
+        // Set the volume slider value to the value saved in the PlayerPrefs
+        GameObject.Find("VolumeSlider").GetComponent<Slider>().value = AudioManager.masterVolume;
+    }
+
     /// <summary>
     /// Function to save the volume into PlayerPrefs
     /// </summary>
@@ -35,5 +41,4 @@ public class StartMenuController : MonoBehaviour
     {
         PlayerPrefs.SetFloat("masterVolume", AudioManager.masterVolume);
     }
-
 }
