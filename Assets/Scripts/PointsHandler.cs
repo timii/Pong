@@ -5,6 +5,7 @@ public class PointsHandler : MonoBehaviour
 {
     private GameObject LeftPlayerPoints;
     private GameObject RightPlayerPoints;
+
     public static int pointsLeft;
     public static int pointsRight;
 

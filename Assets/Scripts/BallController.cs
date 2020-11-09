@@ -10,6 +10,7 @@ public class BallController : MonoBehaviour
     private const float minSpeedY = -maxSpeedY;
     private const float waitTime = 1.0f;
     private float timer = 0.0f;
+    private int maxPoints = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +58,8 @@ public class BallController : MonoBehaviour
         else if (name == "RightPointCounter")
         {
             PointsHandler.pointsLeft++;
+            // End game at 10 points
+            if (PointsHandler.pointsLeft == maxPoints) FindObjectOfType<EndScreenController>().EndGame("Left Player");
             CreateRandomMovement();
             ResetBall();
         }
@@ -66,6 +69,8 @@ public class BallController : MonoBehaviour
         else if (name == "LeftPointCounter")
         {
             PointsHandler.pointsRight++;
+            // End game at 10 points
+            if (PointsHandler.pointsRight == maxPoints) FindObjectOfType<EndScreenController>().EndGame("Right Player");
             CreateRandomMovement();
             ResetBall();
         }

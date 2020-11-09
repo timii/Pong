@@ -7,14 +7,14 @@ public class PauseMenuController : MonoBehaviour
     // Keep track if the game is paused or not
     public static bool gameIsPaused = false;
 
-    // Reference the UI to control it
+    // Reference the pause menu UI to control it
     public GameObject pauseMenuUI;
 
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !EndScreenController.gameHasEnded)
         {
             if (gameIsPaused)
             {
@@ -66,14 +66,13 @@ public class PauseMenuController : MonoBehaviour
         // Reset everything so it starts a new game with normal timeScale
         gameIsPaused = false;
         Time.timeScale = 1f;
+
         // Reset game volume
         FindObjectOfType<AudioManager>().ResetVolume();
-
         // Stop the play audio
         FindObjectOfType<AudioManager>().Stop("PlayTheme");
 
         SceneManager.LoadSceneAsync("StartMenuScene");
-
         // Start the start menu audio
         FindObjectOfType<AudioManager>().Play("StartMenuTheme");
     }
