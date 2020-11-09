@@ -8,10 +8,10 @@ A for fun Project of the game [Pong](https://en.wikipedia.org/wiki/Pong) made in
 
 ### Description
 
-TODO Add description
+I wanted to get to know Unity, so I started with making Pong in Unity. It's a basic game to get familiar with the Engine and learn about the process of making a game.
 
 ### How To Use
 
-TODO Add how to use part
+TODO Add how to use
 
 [Back To The Top](#kalorientracker)
