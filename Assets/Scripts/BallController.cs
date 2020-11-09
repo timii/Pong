@@ -58,8 +58,8 @@ public class BallController : MonoBehaviour
         else if (name == "RightPointCounter")
         {
             PointsHandler.pointsLeft++;
-            // End game at 10 points
-            if (PointsHandler.pointsLeft == maxPoints) FindObjectOfType<EndScreenController>().EndGame("Left Player");
+            // End game at max points points
+            if (PointsHandler.pointsLeft == maxPoints) FindObjectOfType<WinnerScreenController>().EndGame("Left Player");
             CreateRandomMovement();
             ResetBall();
         }
@@ -69,8 +69,8 @@ public class BallController : MonoBehaviour
         else if (name == "LeftPointCounter")
         {
             PointsHandler.pointsRight++;
-            // End game at 10 points
-            if (PointsHandler.pointsRight == maxPoints) FindObjectOfType<EndScreenController>().EndGame("Right Player");
+            // End game at max points points
+            if (PointsHandler.pointsRight == maxPoints) FindObjectOfType<WinnerScreenController>().EndGame("Right Player");
             CreateRandomMovement();
             ResetBall();
         }

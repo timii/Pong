@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class EndScreenController : MonoBehaviour
+public class WinnerScreenController : MonoBehaviour
 {
     public static bool gameHasEnded = false;
 
@@ -13,7 +13,7 @@ public class EndScreenController : MonoBehaviour
     public TextMeshProUGUI winnerText;
 
     /// <summary>
-    /// Function to show the end screen ui with the winner text
+    /// Function to show the winner screen ui with the winner text
     /// </summary>
     /// <param name="winner">the name of the winner</param>
     public void EndGame(string winner)
