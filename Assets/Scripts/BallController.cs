@@ -2,37 +2,25 @@
 
 public class BallController : MonoBehaviour
 {
-    private float currentSpeedX;
-    private float currentSpeedY;
-    private const float maxSpeedX = 0.035f;
-    private const float minSpeedX = -maxSpeedX;
-    private const float maxSpeedY = 0.035f;
-    private const float minSpeedY = -maxSpeedY;
+    private float speed = 50;
     private const float waitTime = 1.0f;
-    private float timer = 0.0f;
+
     private int maxPoints = 5;
 
     // Start is called before the first frame update
     void Start()
     {
-        CreateRandomMovement();
+        // Don't move the ball
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
+        // Start moving the ball after 1 second
+        Invoke("MoveBall", waitTime);
     }
 
-    // Update is called once per frame
-    void Update()
+    // Function to move the ball by giving it an initial force
+    void MoveBall()
     {
-        timer += Time.deltaTime;
-
-        // Wait for 1 second, then move the ball
-        if (timer >= waitTime) {
-
-            // Dont move ball when game is paused
-            if (!(PauseMenuController.gameIsPaused))
-            {
-                // Move the ball in a random direction
-                transform.Translate(currentSpeedX, currentSpeedY, 0);
-            }
-        }
+        GetComponent<Rigidbody2D>().velocity = Vector2.right * speed;
     }
 
     // Sent when an incoming collider makes contact with this object's collider (2D physics only)
@@ -40,12 +28,7 @@ public class BallController : MonoBehaviour
     {
         string name = collision.gameObject.name;
 
-        if (name == "TopWall" || name == "BottomWall")
-        {
-            currentSpeedY *= -1;
-        }
-
-        else if (name == "Player")
+        if (name == "Player")
         {
             BounceOffPlayer(collision);
 
@@ -54,43 +37,24 @@ public class BallController : MonoBehaviour
         }
 
         // If the ball scores a point on the right side, add a point to the right player
-        // and reset the ball position
         else if (name == "RightPointCounter")
         {
             PointsHandler.pointsLeft++;
             // End game at max points points
             if (PointsHandler.pointsLeft == maxPoints) FindObjectOfType<WinnerScreenController>().EndGame("Left Player");
-            CreateRandomMovement();
+
             ResetBall();
         }
 
         // If the ball scores a point on the left side, add a point to the left player
-        // and reset the ball position
         else if (name == "LeftPointCounter")
         {
             PointsHandler.pointsRight++;
             // End game at max points points
             if (PointsHandler.pointsRight == maxPoints) FindObjectOfType<WinnerScreenController>().EndGame("Right Player");
-            CreateRandomMovement();
+
             ResetBall();
         }
-    }
-
-    // Function to create random x and y speeds for the ball movement
-    private void CreateRandomMovement() {
-        float speedMargin = 0.02f; 
-
-        currentSpeedX = Random.Range(minSpeedX, maxSpeedX);
-
-        // Workaround to exclude values from -0.01 to 0.01
-        if (currentSpeedX > -speedMargin && currentSpeedX < 0) currentSpeedX -= speedMargin;
-        else if (currentSpeedX > 0 && currentSpeedX < speedMargin) currentSpeedX += speedMargin;
-
-        currentSpeedY = Random.Range(minSpeedY, maxSpeedY);
-
-        // Workaround to exclude values from -0.01 to 0.01
-        if (currentSpeedY > -speedMargin && currentSpeedY < 0) currentSpeedY -= speedMargin;
-        else if (currentSpeedY > 0 && currentSpeedY < speedMargin) currentSpeedY += speedMargin;
     }
 
     // Function to reset the ball position to the center
@@ -101,35 +65,66 @@ public class BallController : MonoBehaviour
         // Set the ball into the middle
         transform.position = startingPosition;
 
-        // Remove the recorded 2 seconds
-        timer = 0.0f;
+        Start();
     }
 
     /// <summary>
     /// Function to bounce off a player according to which side it hit
     /// </summary>
-    /// <param name="coll">the collision2d data associated with the collision</param>
-    private void BounceOffPlayer(Collision2D coll) {
-        Vector3 hit = coll.contacts[0].normal;
-        
-        // Get the angle at which the ball hit the player
-        float angle = Vector3.Angle(hit, Vector3.up);
+    /// <param name="col">the collision2d data associated with the collision</param>
+    private void BounceOffPlayer(Collision2D col)
+    {
+        // source: https://noobtuts.com/unity/2d-pong-game
 
-        // Hit top or bottom of players
-        if (Mathf.Approximately(angle, 0) || Mathf.Approximately(angle, 180))
+        // Helping variable to find out which player the ball hit
+        float xPos = gameObject.transform.position.x;
+
+        // Hit the left Player?
+        if (xPos < 0)
         {
-            currentSpeedY *= -1;
+            // Calculate hit Factor
+            float y = hitFactor(transform.position,
+                                col.gameObject.transform.Find("LeftPlayer").position,
+                                col.collider.bounds.size.y);
+
+            // Calculate direction, make length=1 via .normalized
+            Vector2 dir = new Vector2(1, y).normalized;
+
+            // Set Velocity with dir * speed
+            GetComponent<Rigidbody2D>().velocity = dir * speed;
         }
 
-        // Hit right or left side of players   
-        else if (Mathf.Approximately(angle, 90))
-        {             
-            currentSpeedX *= -1;
+        // Hit the right Player?
+        if (xPos > 0)
+        {
+            // Calculate hit Factor
+            float y = hitFactor(transform.position,
+                                col.gameObject.transform.Find("RightPlayer").position,
+                                col.collider.bounds.size.y);
 
-            float addSpeed = 0.005f;
-            // Add some randomness to the bounce off
-            currentSpeedX += Random.Range(-addSpeed, addSpeed);
-            currentSpeedY += Random.Range(-addSpeed, addSpeed);
+            // Calculate direction, make length=1 via .normalized
+            Vector2 dir = new Vector2(-1, y).normalized;
+
+            // Set Velocity with dir * speed
+            GetComponent<Rigidbody2D>().velocity = dir * speed;
         }
+    }
+        
+    /// <summary>
+    /// Function to calculate the angle of the ball bounce
+    /// </summary>
+    /// <param name="ballPos">y coordinate of the ball</param>
+    /// <param name="playerPos">y coordinate of the player it hit</param>
+    /// <param name="playerHeight">height of the player</param>
+    /// <returns>the relative position of the ball to the player</returns>
+    float hitFactor(Vector2 ballPos, Vector2 playerPos, float playerHeight)
+    {
+        // ascii art:
+        // ||  1 <- at the top of the player
+        // ||
+        // ||  0 <- at the middle of the player
+        // ||
+        // || -1 <- at the bottom of the player
+        return (ballPos.y - playerPos.y) / playerHeight;
     }
 }

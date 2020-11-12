@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
     private GameObject leftPlayer;
 
     // Movement speed of each player
-    private const float movementSpeed = 0.035f;
+    public const float movementSpeed = 0.2f;
 
     private bool rightCanMoveUp = true;
     private bool rightCanMoveDown = true;
@@ -51,9 +51,9 @@ public class PlayerController : MonoBehaviour
     // Sent when an incoming collider makes contact with this object's collider (2D physics only)
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Name of the player that collides
+        // Name of the player
         string playerName = collision.otherCollider.name;
-        // Name of the object the players collides with
+        // Name of the wall the player collides with
         string name = collision.gameObject.name;
 
         if (playerName == "RightPlayer")
