@@ -2,7 +2,7 @@
 
 public class BallController : MonoBehaviour
 {
-    private float speed = 50;
+    private float speed;
     private const float waitTime = 1.0f;
 
     private int maxPoints = 5;
@@ -10,6 +10,9 @@ public class BallController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Reset ball speed to normal when respawning
+        speed = 50f;
+
         // Don't move the ball
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
@@ -34,6 +37,11 @@ public class BallController : MonoBehaviour
 
             // Play bounce off sound
             FindObjectOfType<AudioManager>().Play("BallBounce");
+
+            Debug.Log("speed: " + GetComponent<Rigidbody2D>().velocity);
+
+            // Increase ball speed for every bounce with a player
+            speed += 5;
         }
 
         // If the ball scores a point on the right side, add a point to the right player
