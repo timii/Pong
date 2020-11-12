@@ -38,8 +38,6 @@ public class BallController : MonoBehaviour
             // Play bounce off sound
             FindObjectOfType<AudioManager>().Play("BallBounce");
 
-            Debug.Log("speed: " + GetComponent<Rigidbody2D>().velocity);
-
             // Increase ball speed for every bounce with a player
             speed += 5;
         }

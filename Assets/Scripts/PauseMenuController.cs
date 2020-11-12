@@ -56,6 +56,11 @@ public class PauseMenuController : MonoBehaviour
         gameIsPaused = false;
         // Reset game volume
         FindObjectOfType<AudioManager>().ResetVolume();
+
+        // Reset play theme when resetting
+        FindObjectOfType<AudioManager>().Stop("PlayTheme");
+        FindObjectOfType<AudioManager>().Play("PlayTheme");
+
         // Reload current scene to reset everything
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }

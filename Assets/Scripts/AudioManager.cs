@@ -85,7 +85,7 @@ public class AudioManager : MonoBehaviour
         }
         s.source.Stop();
     }
-    
+
     // Function for changing the game volume with the volume slider
     public void OnValueChanged()
     {
