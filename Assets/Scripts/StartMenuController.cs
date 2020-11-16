@@ -38,8 +38,8 @@ public class StartMenuController : MonoBehaviour
     // Function for when the options button is clicked
     public void OptionButtonClick()
     {
-        // Set the volume slider value to the value saved in the PlayerPrefs
-        GameObject.Find("VolumeSlider").GetComponent<Slider>().value = PlayerPrefs.GetFloat("masterVolume");
+        // Set the volume slider value to the value of the master volume
+        GameObject.Find("VolumeSlider").GetComponent<Slider>().value = AudioManager.masterVolume;
     }
 
     /// <summary>
