@@ -27,11 +27,19 @@ public class StartMenuController : MonoBehaviour
         Application.Quit();
     }
 
+    // Function for changing the game volume with the volume slider
+    public void OnValueChanged()
+    {
+        // Set the master volume to the value of the slider
+        AudioManager.masterVolume = GameObject.Find("VolumeSlider").GetComponent<Slider>().value;
+        AudioListener.volume = AudioManager.masterVolume;
+    }
+
     // Function for when the options button is clicked
-    public void OptionsButtonClick()
+    public void OptionButtonClick()
     {
         // Set the volume slider value to the value saved in the PlayerPrefs
-        GameObject.Find("VolumeSlider").GetComponent<Slider>().value = AudioManager.masterVolume;
+        GameObject.Find("VolumeSlider").GetComponent<Slider>().value = PlayerPrefs.GetFloat("masterVolume");
     }
 
     /// <summary>

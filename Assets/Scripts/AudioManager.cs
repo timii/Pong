@@ -86,14 +86,6 @@ public class AudioManager : MonoBehaviour
         s.source.Stop();
     }
 
-    // Function for changing the game volume with the volume slider
-    public void OnValueChanged()
-    {
-        // Set the master volume to the value of the slider
-        masterVolume = GameObject.Find("VolumeSlider").GetComponent<Slider>().value;
-        AudioListener.volume = masterVolume;
-    }
-
     // Resets the volume
     public void ResetVolume()
     {

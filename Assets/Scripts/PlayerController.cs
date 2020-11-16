@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
     private GameObject leftPlayer;
 
     // Movement speed of each player
-    public const float movementSpeed = 0.2f;
+    private float movementSpeed;
 
     private bool rightCanMoveUp = true;
     private bool rightCanMoveDown = true;
@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        movementSpeed = 50f;
+
         rightPlayer = GameObject.Find("RightPlayer");
         leftPlayer = GameObject.Find("LeftPlayer");
     }
@@ -26,25 +28,25 @@ public class PlayerController : MonoBehaviour
         // Right player move up on arrow up hold
         if (rightCanMoveUp == true && Input.GetKey(KeyCode.UpArrow))
         {
-            rightPlayer.transform.Translate(0, movementSpeed, 0);
+            rightPlayer.transform.Translate(Vector2.up * movementSpeed * Time.deltaTime);
         }
 
         // Right player move down on arrow down hold
         if (rightCanMoveDown == true && Input.GetKey(KeyCode.DownArrow))
         {
-            rightPlayer.transform.Translate(0, -movementSpeed, 0);
+            rightPlayer.transform.Translate(Vector2.down * movementSpeed * Time.deltaTime);
         }
 
         // Left player move up on "w" key hold
         if (leftCanMoveUp == true && Input.GetKey(KeyCode.W))
         {
-            leftPlayer.transform.Translate(0, movementSpeed, 0);
+            leftPlayer.transform.Translate(Vector2.up * movementSpeed * Time.deltaTime);
         }
 
         // Left player move down on "s" key hold
         if (leftCanMoveDown == true && Input.GetKey(KeyCode.S))
         {
-            leftPlayer.transform.Translate(0, -movementSpeed, 0);
+            leftPlayer.transform.Translate(Vector2.down * movementSpeed * Time.deltaTime);
         }
     }
 
