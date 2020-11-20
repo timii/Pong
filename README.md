@@ -4,7 +4,7 @@ A for fun Project of the game [Pong](https://en.wikipedia.org/wiki/Pong) made in
 ### Table of Contents
 
 - [Description](#description)
-- [How To Use](#how-to-use)
+- [How To Play](#how-to-play)
 
 ### Description
 
