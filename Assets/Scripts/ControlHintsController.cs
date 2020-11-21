@@ -8,43 +8,43 @@ public class ControlHintsController : MonoBehaviour
     public Sprite[] sprites;
 
     // All the game objects needed
-    Sprite ArrowUpKey;
-    Sprite ArrowDownKey;
-    Sprite WKey;
-    Sprite SKey;
+    SpriteRenderer ArrowUpKey;
+    SpriteRenderer ArrowDownKey;
+    SpriteRenderer SKey;
+    SpriteRenderer WKey;
 
     // Start is called before the first frame update
     void Start()
     {
-        ArrowUpKey = GameObject.Find("ArrowUp").GetComponent<SpriteRenderer>().sprite;
-        ArrowDownKey = GameObject.Find("ArrowDown").GetComponent<SpriteRenderer>().sprite;
-        WKey = GameObject.Find("WKey").GetComponent<SpriteRenderer>().sprite;
-        SKey = GameObject.Find("SKey").GetComponent<SpriteRenderer>().sprite;
+        ArrowUpKey = GameObject.Find("ArrowUp").GetComponent<SpriteRenderer>();
+        ArrowDownKey = GameObject.Find("ArrowDown").GetComponent<SpriteRenderer>();
+        SKey = GameObject.Find("SKey").GetComponent<SpriteRenderer>();
+        WKey = GameObject.Find("WKey").GetComponent<SpriteRenderer>();
 
         // Set the standard sprites
-        ArrowUpKey = sprites[0];
-        ArrowDownKey = sprites[0];
-        SKey = sprites[2];
-        WKey = sprites[4];
+        ArrowUpKey.sprite = sprites[0];
+        ArrowDownKey.sprite = sprites[0];
+        SKey.sprite = sprites[2];
+        WKey.sprite = sprites[4];
     }
 
     // Update is called once per frame
     void Update()
     {
         // If arrow up key pressed change the sprite
-        if (Input.GetKey(KeyCode.UpArrow)) ArrowUpKey = sprites[1];
-        else ArrowUpKey = sprites[0];
+        if (Input.GetKey(KeyCode.UpArrow)) ArrowUpKey.sprite = sprites[1];
+        else ArrowUpKey.sprite = sprites[0];
 
         // If arrow down key pressed change the sprite
-        if (Input.GetKey(KeyCode.DownArrow)) ArrowDownKey = sprites[1];
-        else ArrowDownKey = sprites[0];
+        if (Input.GetKey(KeyCode.DownArrow)) ArrowDownKey.sprite = sprites[1];
+        else ArrowDownKey.sprite = sprites[0];
 
         // If s key pressed change the sprite
-        if (Input.GetKey(KeyCode.S)) SKey = sprites[3];
-        else SKey = sprites[2];
+        if (Input.GetKey(KeyCode.S)) SKey.sprite = sprites[3];
+        else SKey.sprite = sprites[2];
 
         // If w key pressed change the sprite
-        if (Input.GetKey(KeyCode.W)) WKey = sprites[5];
-        else WKey = sprites[4];
+        if (Input.GetKey(KeyCode.W)) WKey.sprite = sprites[5];
+        else WKey.sprite = sprites[4];
     }
 }
