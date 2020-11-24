@@ -14,4 +14,4 @@ I wanted to get to know Unity, so I started with making Pong in Unity. It's a ba
 
 Download the Pong_x.x.x.zip file from the [latest release](https://github.com/Timii-i/Pong/releases), unzip it and start the .exe file.
 
-[Back To The Top](#kalorientracker)
+[Back To The Top](#pong)
